@@ -1,0 +1,540 @@
+{
+	"info": {
+		"_postman_id": "b5bf49a2-91ec-4e60-ace3-681b8062213f",
+		"name": "tugas-BE-recipes-api-collection",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "25033889"
+	},
+	"item": [
+		{
+			"name": "users",
+			"item": [
+				{
+					"name": "get all data users",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:3000/users",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get data users by id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:3000/users/3",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"users",
+								"3"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get data users by search",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:3000/users?searchBy=name&search=Budi",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"users"
+							],
+							"query": [
+								{
+									"key": "searchBy",
+									"value": "name"
+								},
+								{
+									"key": "search",
+									"value": "Budi"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get data users limited paginated",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:3000/users?page=1&limit=3&sort=desc",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"users"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "limit",
+									"value": "3"
+								},
+								{
+									"key": "sort",
+									"value": "desc"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "insert data users",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\"name\": \"Ahmad\",\r\n\"email\": \"Ahmad@email\",\r\n\"phonenumber\":\"021ahmad123\",\r\n\"password\":\"passwordahmad\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:3000/users/",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"users",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update data users",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\"name\": \"User1NewPosted\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:3000/users/1",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"users",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete data users",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "localhost:3000/users/19",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"users",
+								"19"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "recipes",
+			"item": [
+				{
+					"name": "get all data recipes",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:3000/recipes",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"recipes"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get data recipes by id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:3000/recipes/1",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"recipes",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get data recipes by search",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:3000/recipes?search=sand",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"recipes"
+							],
+							"query": [
+								{
+									"key": "search",
+									"value": "sand"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get data recipes sorted limited paginated",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:3000/recipes?sortby=created_at&sort=desc&page=1&limit=10",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"recipes"
+							],
+							"query": [
+								{
+									"key": "sortby",
+									"value": "created_at"
+								},
+								{
+									"key": "sort",
+									"value": "desc"
+								},
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "limit",
+									"value": "10"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "insert data recipes",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\"title\":\"Test Recipe baru1 Postman\",\r\n\"ingredients\":\"Test Ingredients baru1 Postman\",\r\n\"photo\":\"Testdomain.com/photoPostman baru1 \",\r\n\"users_id\":\"2\",\r\n\"categories_id\":\"3\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:3000/recipes/",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"recipes",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update data recipes",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\"title\":\"Sandwich with Egg\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:3000/recipes/1",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"recipes",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete data recipes",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "localhost:3000/recipes/50",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"recipes",
+								"50"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "categories",
+			"item": [
+				{
+					"name": "get all data categories",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:3000/categories",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"categories"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get data categories by id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:3000/categories/1",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"categories",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get data categories by search",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:3000/categories?search=pou",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"categories"
+							],
+							"query": [
+								{
+									"key": "search",
+									"value": "pou"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get data categories sorted limited paginated",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:3000/categories?sortby=category_name&sort=asc&page=1&limit=10",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"categories"
+							],
+							"query": [
+								{
+									"key": "sortby",
+									"value": "category_name"
+								},
+								{
+									"key": "sort",
+									"value": "asc"
+								},
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "limit",
+									"value": "10"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "insert data categories",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\"category_name\": \"Desert\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:3000/categories",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"categories"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update data categories",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\"category_name\": \"Dessert\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:3000/categories/5",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"categories",
+								"5"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete data categories",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "localhost:3000/categories/3",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"categories",
+								"3"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
