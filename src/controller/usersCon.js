@@ -1,8 +1,6 @@
 const ApiResult = require("../middleware/error/ApiResult");
 const cloudinary = require("../config/uploadconfig");
-const mailer = require("../middleware/email");
 const argon2 = require("argon2");
-// next(ApiResult.[tiperesult](message,data));
 const {
   selectDataUser,
   insertDataUser,
@@ -10,9 +8,7 @@ const {
   updateDataUser,
   deleteDataUser,
   findUser,
-  checkOTP,
   changePassword,
-  verifyUser,
 } = require("../model/userModel");
 
 const usersController = {
@@ -59,22 +55,6 @@ const usersController = {
       next(ApiResult.badRequest(`Error, message = ${error.message}`));
     }
   },
-  //getuser versi then catch
-  // getUserById: async (req, res, next) => {
-  //   if (isNaN(req.params.id)) {
-  //     next(ApiResult.badRequest(`Bad Request, id is not a number`));
-  //   }
-  //   await selectDataUserById(req.params.id).then((result)=>{
-  //     if(!result.rows[0]){
-  //       next(ApiResult.badRequest(`Data not found`));
-  //     }
-  //     res
-  //     .status(200)
-  //     .json({ status: 200, message: `Data found`, data: result.rows });
-  //   }).catch((error)=>{
-  //     next(ApiResult.badRequest(error.message));
-  //   })
-  // },
 
   postDataUser: async (req, res, next) => {
     try {
@@ -105,12 +85,8 @@ const usersController = {
         return;
       }
       if (!req.file) {
-        // if(!req.isFileValid){
-        //     return res.status(404).json({status:404,message:`${req.isFileValidMessage || `No file detected / file type invalid`}`})
-        // }
         req.body.photo = users.photo;
       } else {
-        // console.log('req valid',req.isFileValid)
         if (!req.isFileValid) {
           return res
             .status(404)
@@ -130,7 +106,6 @@ const usersController = {
         req.body.photo = imageUrl.secure_url;
       }
 
-      //cek if undefined
       let data = {
         fullname: req.body.fullname || users.fullname,
         email: req.body.email || users.email,
@@ -166,110 +141,6 @@ const usersController = {
       next(ApiResult.success(`Delete data user successful`, `${id} deleted`));
     } catch (error) {
       next(ApiResult.badRequest(error.message));
-    }
-  },
-  getOTPbyEmail: async (req, res, next) => {
-    try {
-      let email = req.body.email;
-      if (!email) {
-        res.status(404).json({ msg: "Please input email" });
-      }
-      let {
-        rows: [users],
-      } = await findUser(email);
-      if (!users) {
-        res
-          .status(400)
-          .json({ msg: `Failed get user. email ${email} doesn't exist` });
-      }
-      const data = {
-        otp: users.otp,
-        email: email,
-      };
-      try {
-        let sendEmail = mailer(users.email, users.otp);
-        if (sendEmail == "email not send") {
-          res
-            .status(404)
-            .json({ status: 404, message: `Failed to send email` });
-        } else {
-          res
-            .status(200)
-            .json({ msg: "Email sent, check your email", data: data });
-        }
-      } catch (error) {
-        res
-          .status(400)
-          .json({
-            where: `Error sending otp`,
-            msg: error.message,
-            data: error.data,
-          });
-      }
-      // console.log(response);
-    } catch (error) {
-      next(error.message);
-    }
-  },
-  verifyEmailOTP: async (req, res, next) => {
-    try {
-      if (!req.body.email || !req.body.otp) {
-        res
-          .status(404)
-          .json({ status: 404, message: `Please fill your email and OTP` });
-      } else {
-        let data = {
-          email: req.body.email,
-          otp: req.body.otp,
-        };
-        let result = await checkOTP(data);
-        if (result.rows.length === 0) {
-          res
-            .status(404)
-            .json({
-              status: 404,
-              message: `OTP is incorrect, please check again`,
-            });
-        } else {
-          res
-            .status(200)
-            .json({
-              status: 200,
-              message: `Confirm OTP success`,
-              data: result.rows,
-            });
-        }
-      }
-    } catch (error) {
-      next(error.message);
-    }
-  },
-  otpUser: async (req, res, next) => {
-    let email = req.body.email;
-    let otp = req.body.otp;
-
-    if (!email || !otp) {
-      return next(ApiResult.badRequest(`Wrong OTP, please enter correct OTP`));
-    }
-
-    let {
-      rows: [users],
-    } = await findUser(email);
-    let id = users.id
-    if (!users) {
-      return next(ApiResult.badRequest(`User was not found`));
-    }
-
-    console.log(users.otp, otp);
-    if (users.otp == otp) {
-      let verif = await verifyUser(id);
-      if (verif) {
-        return next(ApiResult.success(`User verified successfully`));
-      } else {
-        return next(ApiResult.badRequest(`User verification failed`));
-      }
-    } else {
-      return next(ApiResult.badRequest(`Wrong OTP, please enter correct OTP`));
     }
   },
 

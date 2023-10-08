@@ -2,8 +2,6 @@ const ApiResult = require("../middleware/error/ApiResult");
 const {
   findUser,
   createUser,
-  selectDataUserById,
-  verifyUser,
 } = require("./../model/userModel");
 const { v4: uuidv4 } = require("uuid");
 const argon2 = require("argon2");
@@ -23,7 +21,7 @@ const UsersController = {
     }
     console.log(`role = ${req.params.role}`);
     let role = req.params.role;
-    //cek if email is registered
+    // Cek apakah email sudah terdaftar
     let {
       rows: [users],
     } = await findUser(req.body.email);
@@ -32,18 +30,16 @@ const UsersController = {
       return;
     }
 
-    // //create otp
-    // let id = uuidv4();
-    // let otp = Math.floor(100000 + Math.random() * 900000);
-    // let data = {
-    //   id,
-    //   email: req.body.email,
-    //   password: await argon2.hash(req.body.password),
-    //   fullname: req.body.name,
-    //   role,
-    //   otp,
-    // };
-
+    let id = uuidv4();
+    let passwordHash = await argon2.hash(req.body.password);
+    let data = {
+      email: req.body.email,
+      fullname: req.body.name,
+      password: passwordHash,
+      otp: '', 
+      id: id,
+      role: role,
+    };
     let register = await createUser(data);
 
     if (!register) {
@@ -51,21 +47,9 @@ const UsersController = {
       return;
     }
 
-    try {
-      let url = `http://${process.env.BASE_URL}:${process.env.PORT}/auth/otp/${id}/${otp}`;
-      let sendEmail = email(req.body.email, otp, url, req.body.name);
-      if (sendEmail == "Email not sent") {
-        return next(
-          ApiResult.badRequest(`Registration failed, email was not sent`)
-        );
-      }
-      return next(
-        ApiResult.success(`Registration success, please check your email`)
-      );
-    } catch (error) {
-      console.log("reg gagal", error);
-      return next(ApiResult.badRequest(`Registration failed.`, error.message));
-    }
+    return next(
+      ApiResult.success(`Registration success`)
+    );
   },
 
   loginUser: async (req, res, next) => {
@@ -74,61 +58,32 @@ const UsersController = {
       return;
     }
 
-    //get users to check the data
+    // Mengambil data pengguna berdasarkan email
     let {
       rows: [users],
     } = await findUser(req.body.email);
     if (!users) {
       return next(ApiResult.badRequest(`Login failed, wrong email / password`));
     }
+
+    // Memverifikasi kata sandi pengguna menggunakan Argon2
     let verifyPassword = await argon2.verify(users.password, req.body.password);
     let data = users;
     delete data.password;
-    let accessToken = generateAccessToken(data);
-    let refreshToken = generateRefreshToken(data);
 
+    // Menghasilkan token akses dan token penyegaran jika kata sandi benar
     if (verifyPassword) {
-      users.accessToken = accessToken;
-      users.refreshToken = refreshToken;
+      users.accessToken = generateAccessToken(data);
+      users.refreshToken = generateRefreshToken(data);
       delete users.password;
       delete users.otp;
       delete users.created_at;
-      if(!users.verified){
-        return next(ApiResult.badRequest(`Login failed, please check your email to verify`));
-      }
+
       return next(ApiResult.success(`Login successful, welcome ${users.fullname}`, users));
     }
 
     return next(ApiResult.badRequest(`Login failed`));
   },
-  otpUser: async (req, res, next) => {
-    let id = req.params.id;
-    let otp = req.params.code;
-
-    if (!id || !otp) {
-      return next(ApiResult.badRequest(`Wrong OTP, please enter correct OTP`));
-    }
-
-    let {
-      rows: [users],
-    } = await selectDataUserById(id);
-
-    if (!users) {
-      return next(ApiResult.badRequest(`User was not found`));
-    }
-
-    console.log(users.otp, otp);
-    if (users.otp == otp) {
-      let verif = await verifyUser(id);
-      if (verif) {
-        return next(ApiResult.success(`User verified successfully`));
-      } else {
-        return next(ApiResult.badRequest(`User verification failed`));
-      }
-    } else {
-      return next(ApiResult.badRequest(`Wrong OTP, please enter correct OTP`));
-    }
-  }
 };
 
 module.exports = UsersController;
