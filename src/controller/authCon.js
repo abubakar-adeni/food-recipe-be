@@ -9,7 +9,6 @@ const {
   generateAccessToken,
   generateRefreshToken,
 } = require("../helpers/generateToken");
-const email = require("../middleware/email");
 
 const UsersController = {
   registerUser: async (req, res, next) => {
@@ -58,7 +57,7 @@ const UsersController = {
       return;
     }
 
-    // Mengambil data pengguna berdasarkan email
+
     let {
       rows: [users],
     } = await findUser(req.body.email);
@@ -66,12 +65,12 @@ const UsersController = {
       return next(ApiResult.badRequest(`Login failed, wrong email / password`));
     }
 
-    // Memverifikasi kata sandi pengguna menggunakan Argon2
+
     let verifyPassword = await argon2.verify(users.password, req.body.password);
     let data = users;
     delete data.password;
 
-    // Menghasilkan token akses dan token penyegaran jika kata sandi benar
+
     if (verifyPassword) {
       users.accessToken = generateAccessToken(data);
       users.refreshToken = generateRefreshToken(data);
