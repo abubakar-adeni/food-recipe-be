@@ -3,9 +3,6 @@
 # Pijar Camp Backend - Tugas
 
 Backend API for RecipesApp and Recipes Web.
-RecipesApp is an Android app designed to exchange and discover recipes for cooking various dishes. It enables users to share recipes, along with detailed ingredient and cooking instructions.
-
-By Ariabayu
 
 ## Built with
 
@@ -60,114 +57,10 @@ PHOTO_NAME=
 PHOTO_KEY=
 PHOTO_SECRET=
 ```
-frontend= https://github.com/bayuaria33/frontend-recipes-react
+# Related Project
 
+:rocket: [`Frontend Recipes App`](https://github.com/abubakar-adeni/foodNative)
 
-## API Reference
+:rocket: [`Backend Recipes App`](https://github.com/abubakar-adeni/food-recipe-be)
 
-### Register user
-```http
-  POST /auth/register/user
-```
-Req Body Form: 
-| Key | Value |
-| :-------- |:------------------------- |
-| `email` | **Required**. email |
-| `name` | **Required**. name |
-| `password` | **Required**. password |
-
-### Login user
-```http
-  POST /auth/login
-```
-Req Body Form: 
-| Key | Value |
-| :-------- |:------------------------- |
-| `email` | **Required**. email |
-| `password` | **Required**. password |
-
-### Verify Users OTP
-```http
-  POST /auth/otp/:id/:code
-```
-
-### Get All Recipes
-```http
-  GET /recipes/
-```
-Auth:
-|Key |Value                |
-| :-------- |:------------------------- |
-| `bearer token` |**Required**. Login accessToken |
-
-Query Params: 
-| Key | Description | Default Value
-| :-------- | :------------------------- | :-------- |
-| `search` | search query  |null
-| `searchBy` | search category |title
-| `sortBy`| sort category |created_at
-| `sort`| sort query |asc
-
-### Get Users Recipes
-```http
-  GET /recipes/my-recipe
-```
-Auth:
-|Key |Value                |
-| :-------- |:------------------------- |
-| `bearer token` |**Required**. Login accessToken |
-
-### Get Recipe by Id
-```http
-  GET /recipes/:id
-```
-Auth:
-|Key |Value                |
-| :-------- |:------------------------- |
-| `bearer token` |**Required**. Login accessToken |
-
-### Insert Recipe
-
-```http
-  POST /recipes
-```
-Auth:
-|Key |Value                |
-| :-------- |:------------------------- |
-| `bearer token` |**Required**. Login accessToken |
-
-Req Body Form: 
-| Key | Value |
-| :-------- |:------------------------- |
-| `title` | **Required**. Nasi Goreng |
-| `ingredients` | **Required**. Nasi, Bawang, Garam, Mentega |
-| `photo` | **Required**. image png / jpg |
-| `categories_id` | **Required**. integer|
-
-### Update Recipe
-
-```http
-  PUT /recipes
-```
-Auth:
-|Key |Value                |
-| :-------- |:------------------------- |
-| `bearer token` |**Required**. Login accessToken |
-
-Req Body Form: 
-| Key | Value |
-| :-------- |:------------------------- |
-| `title` | **Required**. Nasi Goreng |
-| `ingredients` | **Required**. Nasi, Bawang, Garam, Mentega |
-| `photo` | **Required**. image png / jpg |
-| `categories_id` | **Required**. integer|
-
-### Delete Recipe
-
-```http
-  DELETE /recipes/:id
-```
-Auth:
-|Key |Value                |
-| :-------- |:------------------------- |
-| `bearer token` |**Required**. Login accessToken |
+:rocket: [`Release APK`](https://github.com/abubakar-adeni/foodNative/tree/main/release)
